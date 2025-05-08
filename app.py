@@ -400,29 +400,19 @@ Only applies if declared as SDF:
 if st.button("🚀 Run Compliance Check"):
     results = []
     step_container = st.container()
-    with st.status("⏳ Running GPT compliance analysis...") as status:
     for section in dpdpa_sections:
-        for section in dpdpa_sections:
         with step_container:
             st.markdown(f"### 🔍 Analyzing: {section}")
         try:
-            try:
-                status.update(label=f"🔍 Analyzing: {section}")
             section_response = analyze_section(section, privacy_policy_text, dpdpa_chapter_text)
-                section_response = analyze_section(section, privacy_policy_text, dpdpa_chapter_text)
             parsed_section = json.loads(section_response)
-                parsed_section = json.loads(section_response)
             results.append(parsed_section)
-                results.append(parsed_section)
             with step_container:
                 st.success(f"✅ Completed: {section}")
-                status.update(label=f"✅ Completed: {section}")
         except Exception as e:
-            except Exception as e:
             with step_container:
                 st.error(f"❌ Error analyzing {section}: {e}")
-                st.error(f"❌ Error analyzing {section}: {e}")
-        status.update(label="🎉 Completed all sections!", state="complete")
+
     st.markdown("---")
 
     if results:
