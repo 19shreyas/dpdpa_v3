@@ -399,14 +399,17 @@ Only applies if declared as SDF:
 # --- Execution ---
 if st.button("🚀 Run Compliance Check"):
     results = []
-    with st.spinner("Analyzing each DPDPA section..."):
+    with st.status("⏳ Running GPT compliance analysis...") as status:
         for section in dpdpa_sections:
             try:
+                status.update(label=f"🔍 Analyzing: {section}")
                 section_response = analyze_section(section, privacy_policy_text, dpdpa_chapter_text)
                 parsed_section = json.loads(section_response)
                 results.append(parsed_section)
+                status.update(label=f"✅ Completed: {section}")
             except Exception as e:
                 st.error(f"❌ Error analyzing {section}: {e}")
+        status.update(label="🎉 Completed all sections!", state="complete")
 
     if results:
         df = pd.DataFrame(results)
